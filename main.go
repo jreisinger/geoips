@@ -15,7 +15,7 @@ import (
 func main() {
 	ips := parseIPs(getIPs())
 
-	var locations []Location
+	var locations []*Location
 
 	for _, ip := range ips {
 		g := &checkip.Geo{}
@@ -25,9 +25,10 @@ func main() {
 			continue
 		}
 		l := Location{ip, g.Country, g.City}
-		locations = append(locations, l)
+		locations = append(locations, &l)
 	}
-	sort.Sort(customSort{locations, func(x, y Location) bool {
+
+	sort.Sort(customSort{locations, func(x, y *Location) bool {
 		if x.Country != y.Country {
 			return x.Country < y.Country
 		}
@@ -36,6 +37,7 @@ func main() {
 		}
 		return false
 	}})
+
 	printLocations(locations)
 }
 
@@ -46,15 +48,15 @@ type Location struct {
 }
 
 type customSort struct {
-	l    []Location
-	less func(x, y Location) bool
+	l    []*Location
+	less func(x, y *Location) bool
 }
 
 func (x customSort) Len() int           { return len(x.l) }
 func (x customSort) Less(i, j int) bool { return x.less(x.l[i], x.l[j]) }
 func (x customSort) Swap(i, j int)      { x.l[i], x.l[j] = x.l[j], x.l[i] }
 
-func printLocations(locations []Location) {
+func printLocations(locations []*Location) {
 	const format = "%v\t%v\t%v\n"
 	tw := new(tabwriter.Writer).Init(os.Stdout, 0, 8, 2, ' ', 0)
 	fmt.Fprintf(tw, format, "Country", "City", "IP address")
