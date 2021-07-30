@@ -94,7 +94,7 @@ func parseIPs(ips []string) []net.IP {
 	for _, ip := range ips {
 		ipParsed := net.ParseIP(ip)
 		if ipParsed == nil {
-			log.Printf("Can't parse IP address: %s", ip)
+			log.Printf("can't parse IP address: %s", ip)
 			continue
 		}
 		ipsParsed = append(ipsParsed, ipParsed)
