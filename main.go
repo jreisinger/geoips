@@ -59,10 +59,8 @@ func (x customSort) Swap(i, j int)      { x.l[i], x.l[j] = x.l[j], x.l[i] }
 func printLocations(locations []*Location) {
 	const format = "%v\t%v\t%v\n"
 	tw := new(tabwriter.Writer).Init(os.Stdout, 0, 8, 2, ' ', 0)
-	fmt.Fprintf(tw, format, "Country", "City", "IP address")
-	fmt.Fprintf(tw, format, "-------", "----", "----------")
 	for _, l := range locations {
-		// you don't have to derefence here like (*b).title
+		// you don't have to derefence here like (*l).Country
 		fmt.Fprintf(tw, format, l.Country, l.City, l.IP)
 	}
 	tw.Flush() // calculate column widths and print table
