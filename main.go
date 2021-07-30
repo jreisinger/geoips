@@ -12,6 +12,11 @@ import (
 	"github.com/jreisinger/checkip"
 )
 
+func init() {
+	log.SetPrefix(os.Args[0] + ": ")
+	log.SetFlags(0)
+}
+
 func main() {
 	ips := parseIPs(getIPs())
 
@@ -21,7 +26,7 @@ func main() {
 		g := &checkip.Geo{}
 		_, err := g.Check(ip)
 		if err != nil {
-			log.Printf("while getting geolocation: %v", err)
+			log.Printf("while getting geolocation of %s: %v", ip, err)
 			continue
 		}
 		l := Location{ip, g.Country, g.City}
