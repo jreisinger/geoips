@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -9,7 +10,7 @@ import (
 	"sort"
 	"text/tabwriter"
 
-	"github.com/jreisinger/checkip"
+	"github.com/jreisinger/checkip/checks"
 )
 
 func init() {
@@ -23,13 +24,21 @@ func main() {
 	var locations []*Location
 
 	for _, ip := range ips {
-		g := &checkip.Geo{}
-		_, err := g.Check(ip)
+		res, err := checks.CheckGeo(ip)
 		if err != nil {
 			log.Printf("while getting geolocation of %s: %v", ip, err)
 			continue
 		}
-		l := Location{ip, g.Country, g.City}
+		js, err := res.Info.JsonString()
+		if err != nil {
+			log.Printf("while getting info for %s: %v", ip, err)
+			continue
+		}
+		l := Location{IP: ip}
+		if err := json.Unmarshal([]byte(js), &l); err != nil {
+			log.Printf("while getting unmarshalling info for %s: %v", ip, err)
+			continue
+		}
 		locations = append(locations, &l)
 	}
 
