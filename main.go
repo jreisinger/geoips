@@ -36,7 +36,7 @@ func main() {
 		}
 		l := Location{IP: ip}
 		if err := json.Unmarshal([]byte(js), &l); err != nil {
-			log.Printf("while getting unmarshalling info for %s: %v", ip, err)
+			log.Printf("while unmarshalling info for %s: %v", ip, err)
 			continue
 		}
 		locations = append(locations, &l)
