@@ -24,7 +24,7 @@ func main() {
 	var locations []*Location
 
 	for _, ip := range ips {
-		res, err := checks.CheckGeo(ip)
+		res, err := checks.DBip(ip)
 		if err != nil {
 			log.Printf("while getting geolocation of %s: %v", ip, err)
 			continue
