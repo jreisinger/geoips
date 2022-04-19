@@ -29,13 +29,13 @@ func main() {
 			log.Printf("while getting geolocation of %s: %v", ip, err)
 			continue
 		}
-		js, err := res.Info.JsonString()
+		js, err := res.Info.Json()
 		if err != nil {
 			log.Printf("while getting info for %s: %v", ip, err)
 			continue
 		}
 		l := Location{IP: ip}
-		if err := json.Unmarshal([]byte(js), &l); err != nil {
+		if err := json.Unmarshal(js, &l); err != nil {
 			log.Printf("while unmarshalling info for %s: %v", ip, err)
 			continue
 		}
