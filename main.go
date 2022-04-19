@@ -10,7 +10,7 @@ import (
 	"sort"
 	"text/tabwriter"
 
-	"github.com/jreisinger/checkip/checks"
+	"github.com/jreisinger/checkip/check"
 )
 
 func init() {
@@ -24,7 +24,7 @@ func main() {
 	var locations []*Location
 
 	for _, ip := range ips {
-		res, err := checks.DBip(ip)
+		res, err := check.DBip(ip)
 		if err != nil {
 			log.Printf("while getting geolocation of %s: %v", ip, err)
 			continue
